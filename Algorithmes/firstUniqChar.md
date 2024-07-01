@@ -1,22 +1,21 @@
 # Find First Unique Character
 
+Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
 ## TypeScript
 
 ```typescript
 function firstUniqChar(s: string): number {
-  let map = new Map<string, number>();
+  const charCount = new Map<string, number>();
 
   for (let char of s) {
-    const occ = map.get(char);
-    if (occ) {
-      map.set(char, occ + 1);
-    } else {
-      map.set(char, 1);
-    }
+    charCount.set(char, (charCount.get(char) || 0) + 1);
   }
 
   for (let i = 0; i < s.length; i++) {
-    if (map.get(s[i]) === 1) return i;
+    if (charCount.get(s[i]) === 1) {
+      return i;
+    }
   }
 
   return -1;
@@ -27,16 +26,13 @@ function firstUniqChar(s: string): number {
 
 ```python
 def firstUniqChar(s: str) -> int:
-    map = {}
+    charCount = {}
 
     for char in s:
-        if char in map:
-            map[char] += 1
-        else:
-            map[char] = 1
+        charCount[char] = charCount.get(char, 0) + 1
 
     for i, char in enumerate(s):
-        if map[char] == 1:
+        if charCount[char] == 1:
             return i
 
     return -1
@@ -45,19 +41,16 @@ def firstUniqChar(s: str) -> int:
 ## Java
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
-public class Solution {
+class Solution {
     public int firstUniqChar(String s) {
-        Map<Character, Integer> map = new HashMap<>();
+        Map<Character, Integer> charCount = new HashMap<>();
 
         for (char c : s.toCharArray()) {
-            map.put(c, map.getOrDefault(c, 0) + 1);
+            charCount.put(c, charCount.getOrDefault(c, 0) + 1);
         }
 
         for (int i = 0; i < s.length(); i++) {
-            if (map.get(s.charAt(i)) == 1) {
+            if (charCount.get(s.charAt(i)) == 1) {
                 return i;
             }
         }
